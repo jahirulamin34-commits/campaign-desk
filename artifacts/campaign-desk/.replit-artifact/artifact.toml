@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Campaign Desk"
+description = "A focused campaign operations workspace for planning launches, monitoring delivery, and keeping performance decisions visible in one place."
+version = "1.0.0"
+id = "artifacts/campaign-desk"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21413
+
+[services.development]
+run = "pnpm --filter @workspace/campaign-desk run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/campaign-desk", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/campaign-desk/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21413"
+BASE_PATH = "/"
